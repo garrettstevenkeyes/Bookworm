@@ -8,6 +8,17 @@
 import SwiftUI
 import SwiftData
 
+extension View {
+    @ViewBuilder
+    func `if`(_ condition: Bool, transform: (Self) -> some View) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: [
@@ -29,6 +40,10 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 Text(book.title)
                                     .font(.headline)
+                                    .foregroundStyle(book.rating == 1 ? .red : .primary)
+                                    .if(book.rating == 1) { view in
+                                        view.accessibilityHint("Low-rated book")
+                                    }
                                 
                                 Text(book.author)
                                     .font(.subheadline).foregroundStyle(.secondary)
