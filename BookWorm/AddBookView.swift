@@ -53,6 +53,7 @@ struct AddBookView: View {
                         dismiss()
                     }
                 }
+                .disabled(title.isEmpty || author.isEmpty || review.isEmpty)
             }
             .navigationTitle(Text("Add Book"))
         }
